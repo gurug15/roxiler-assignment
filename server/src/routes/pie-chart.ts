@@ -3,20 +3,20 @@ import { Transaction } from "../models/transaction";
 
 export const getPieChartData = async (req:Request, res:Response) => {
     try {
-      const month  = parseInt(req.query.month as string);
-      if(isNaN(month) || month < 1 || month > 12){
-         res.status(400).json({message: "Invalid month"})
-         return;
-      }
-      
-      const monthFilter = {
-        $expr: {
-          $eq: [{ $month: '$dateOfSale' },month]
+      const {month=""} = req.query;
+      let filter: any = {};
+
+        if (month && typeof month === "string") {
+            filter = {
+                ...filter,
+                $expr: {
+                    $eq: [{ $month: "$dateOfSale" }, parseInt(month)],
+                },
+            };
         }
-      };
   
       const pieChartData = await Transaction.aggregate([
-        { $match: monthFilter },
+        { $match: filter },
         {
           $group: {
             _id: '$category',

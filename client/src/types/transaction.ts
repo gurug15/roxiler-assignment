@@ -25,3 +25,20 @@ export interface TabelData {
     transactions: Transaction[],
     pagination: Pagi
 }
+
+export interface BarChartType {
+        range: string,
+        count: number
+}
+export interface PieChartType {
+        count: number,
+        category: string,
+        fill?: string
+}
+
+export interface StatType {
+     _id?: null,
+    totalSaleAmount:number,
+    soldItems: number,
+    notSoldItems: number
+}

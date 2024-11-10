@@ -3,18 +3,17 @@ import { Transaction } from "../models/transaction";
 
 export const getBarChartData = async (req:Request, res:Response) => {
     try {
-        const month = parseInt(req.query.month as string);
-        if (isNaN(month) || month < 1 || month > 12) {
-          res.status(400).json({ message: "Invalid month parameter" });
-          return;
+      const {month=""} = req.query;
+      let filter: any = {};
+
+        if (month && typeof month === "string") {
+            filter = {
+                ...filter,
+                $expr: {
+                    $eq: [{ $month: "$dateOfSale" }, parseInt(month)],
+                },
+            };
         }
-    
-      
-      const monthFilter = {
-        $expr: {
-          $eq: [{ $month: '$dateOfSale' }, month]
-        }
-      };
   
       const ranges = [
         { min: 0, max: 100 },
@@ -32,7 +31,7 @@ export const getBarChartData = async (req:Request, res:Response) => {
       const barChartData = await Promise.all(
         ranges.map(async ({ min, max }) => {
           const count = await Transaction.countDocuments({
-            ...monthFilter,
+            ...filter,
             price: { $gte: min, $lt: max === Infinity ? Number.MAX_VALUE : max }
           });
   

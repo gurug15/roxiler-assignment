@@ -23,7 +23,7 @@ export default function TransactionTable() {
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(0)
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(3)
   const [transaction, setTransaction] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -170,6 +170,7 @@ export default function TransactionTable() {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
+              size="default"
                 href="#"
                 onClick={(e) => {
                   e.preventDefault()
@@ -184,6 +185,7 @@ export default function TransactionTable() {
             {[...Array(paginationValues.totalPages)].map((_, i) => (
               <PaginationItem key={i}>
                 <PaginationLink
+                size="default"
                   href="#"
                   isActive={currentPage === i + 1}
                   onClick={(e) => {
@@ -198,6 +200,7 @@ export default function TransactionTable() {
             
             <PaginationItem>
               <PaginationNext
+              size="default"
                 href="#"
                 onClick={(e) => {
                   e.preventDefault()
