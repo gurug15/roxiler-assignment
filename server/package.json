@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build":"tsc -b",
+    "dev": "tsc -b && node dist/index.js",
+    "seed": "tsc -b && node dist/script/seed.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0"
+  }
+}
