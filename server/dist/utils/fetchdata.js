@@ -24,11 +24,6 @@ const fetchTransactionData = () => __awaiter(void 0, void 0, void 0, function* (
     try {
         const response = yield axios_1.default.get(API_URL);
         const data = response.data;
-        // const transformdata : ITransaction[] = data.map((item)=>({
-        //     title: item.title,
-        //     description: item.description,
-        //     price: parseInt(item.price)
-        // }))
         console.log("data is:", data);
         return data;
     }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build":"tsc -b",
+    "build": "tsc -b",
     "dev": "tsc -b && node dist/index.js",
     "seed": "tsc -b && node dist/script/seed.js"
   },
@@ -12,8 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "mongoose": "^8.8.0"
   },
   "devDependencies": {
