@@ -4,7 +4,7 @@ import { Transaction } from "../models/transaction";
 export const listTransactions = async (req: Request, res: Response) => {
     console.log("control reached here");
     try {
-        const { month = "3", search = "", page = "1", perPage = "10" } = req.query;
+        const { month = "", search = "", page = "1", perPage = "10" } = req.query;
 
         const pageNo = Math.max(1, parseInt(page as string) || 1);
         const itemPerPage = Math.max(1, parseInt(perPage as string) || 10);

@@ -6,6 +6,8 @@ import { connectToDatabase } from './config/db';
 import { listTransactions } from './routes/listTransactoins';
 import { getStatistics } from './routes/statistics';
 import { getBarChartData } from './routes/bar-chart';
+import { getPieChartData } from './routes/pie-chart';
+import { getCombinedData } from './routes/combined-data';
 
 dotenv.config();
 const app = express()
@@ -17,10 +19,10 @@ const PORT = process.env.PORT || 5000
 
 
 app.get("/api/transaction",listTransactions)
-app.get("/api/statictics", getStatistics)
+app.get("/api/statistics", getStatistics)
 app.get("/api/bar-chart", getBarChartData)
-// app.get("/api/pie-chart", listTransactoins)
-// app.get("/api/combined", listTransactoins)
+app.get("/api/pie-chart", getPieChartData)
+app.get("/api/combined", getCombinedData)
 
 
 

@@ -11,7 +11,6 @@ export const getStatistics = async (req: Request, res: Response) => {
     }
 
     const stats = await Transaction.aggregate([
-
       { 
         $match: {
           $expr: {
