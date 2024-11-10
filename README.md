@@ -22,8 +22,8 @@ A simple dashboard to visualize and analyze transaction data.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd <project-folder>
+git clone https://github.com/gurug15/roxiler-assignment.git
+cd roxiler-assignment
 ```
 
 2. Set up environment variables:
