@@ -23,23 +23,25 @@ export default function TransactionTable() {
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(0) // default to 'All'
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(3)
+  const [transaction, setTransaction] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(false)
 
   const fetchTransactions = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(BACKEND_URL, {
+      const response = await axios.get(`${BACKEND_URL}`, {
         params: {
-          search,
+          search: search,
           page: currentPage,
           perPage: 10,
-          month: selectedMonthIndex === 0 ? null : selectedMonthIndex // Set month to null for 'All'
+          month: selectedMonthIndex === 0 ? null : selectedMonthIndex
         }
-      })
-      const responseData = response.data.data as TabelData
-      setTransactions(responseData.transactions)
+      });
+      
+      
+      const responseData = response.data.data as TabelData;
+      setTransaction(responseData.transactions)
       setPaginationValues(responseData.pagination)
     } catch (error) {
       console.error('Error fetching transactions:', error)
@@ -48,21 +50,31 @@ export default function TransactionTable() {
     }
   }
 
-  // Fetch transactions when currentPage or selectedMonthIndex changes
   useEffect(() => {
     fetchTransactions()
   }, [currentPage, selectedMonthIndex])
 
-  // Handle search button click to fetch transactions based on search term
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (currentPage !== 1) {
+        setCurrentPage(1)
+      } else {
+        fetchTransactions()
+      }
+    }, 500)
+
+    return () => clearTimeout(timeoutId)
+  }, [search])
+
   const handleSearch = () => {
-    setCurrentPage(1) // Reset to page 1 on new search
+    setCurrentPage(1)
     fetchTransactions()
   }
 
   const handleMonthChange = (value: string) => {
     const monthIndex = months.indexOf(value)
     setSelectedMonthIndex(monthIndex)
-    setCurrentPage(1) // Reset to page 1 when month filter changes
+    setCurrentPage(1)
   }
 
   const formatDate = (dateString: Date) => {
@@ -121,12 +133,12 @@ export default function TransactionTable() {
               <TableRow>
                 <TableCell colSpan={8} className="text-center">Loading...</TableCell>
               </TableRow>
-            ) : transactions.length === 0 ? (
+            ) : transaction.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={8} className="text-center">No transactions found</TableCell>
               </TableRow>
             ) : (
-              transactions.map((item) => (
+              transaction.map((item) => (
                 <TableRow key={item._id}>
                   <TableCell className="font-medium">{item._id.slice(-6)}</TableCell>
                   <TableCell>
@@ -173,7 +185,7 @@ export default function TransactionTable() {
             {[...Array(paginationValues.totalPages)].map((_, i) => (
               <PaginationItem key={i}>
                 <PaginationLink
-                  size="default"
+                size="default"
                   href="#"
                   isActive={currentPage === i + 1}
                   onClick={(e) => {
